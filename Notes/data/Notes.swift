@@ -7,15 +7,14 @@
 import SwiftData
 import Foundation
 
-@Model
-class NotesItem: Identifiable{
-    @Attribute var id: String = UUID().uuidString
-    var title: String
-    var desc: String
-    
-    init(id: String, title: String, desc: String){
+@Model class ToDoItem: Identifiable {
+    var id: UUID
+    var name: String
+    var isComplete: Bool
+
+    init(id: UUID = UUID(), name: String = "", isComplete: Bool = false) {
         self.id = id
-        self.title = title
-        self.desc = desc
+        self.name = name
+        self.isComplete = isComplete
     }
 }
