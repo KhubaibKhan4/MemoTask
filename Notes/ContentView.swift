@@ -11,9 +11,11 @@ import SwiftData
 
 struct ContentView: View {
     
-    @Environment(\.modelContext) var context
+    @Environment(\.modelContext) private var context
     
-    @Query var todoItems: [ToDoItem]
+    @Query private var todoItems: [ToDoItem]
+    
+    @State private var isNavigationEnabled: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -33,17 +35,74 @@ struct ContentView: View {
                         let itemToDelete = todoItems[index]
                         context.delete(itemToDelete)
                     }
-                })
+                }).swipeActions {
+                    Button("Edit",role:.cancel) {
+                        isNavigationEnabled = true
+                    }.foregroundColor(.white)
+                        .background(.blue)
+                    
+                    Button("Delete", role: .destructive) {
+                        
+                    }.background(.red)
+                }
             }
-        }.navigationTitle("To Do List")
+            .toolbar(content: {
+                Button {
+                    isNavigationEnabled = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            })
+            .navigationTitle("To Do List")
+            .sheet(isPresented: $isNavigationEnabled, content: {
+                AddNewNotes()
+            })
+        }
     }
-    func generateRandomTodoItem() -> ToDoItem {
-        let tasks = [ "Buy groceries", "Finish homework", "Go for a run", "Practice Yoga", "Read a book", "Write a blog post", "Clean the house", "Walk the dog", "Attend a meeting" ]
+}
 
-        let randomIndex = Int.random(in: 0..<tasks.count)
-        let randomTask = tasks[randomIndex]
-
-        return ToDoItem(name: randomTask, isComplete: Bool.random())
+struct AddNewNotes: View {
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var title: String = ""
+    @State private var desc: String = ""
+    
+    @FocusState private var titleFieldFocus: Bool
+    @FocusState private var descFieldFocus: Bool
+    
+    @Environment(\.modelContext) private var context
+    
+    var body: some View {
+        NavigationStack{
+            VStack{
+                Text("Add New Notes here")
+                Form {
+                    TextField("Title", text:$title)
+                        .focused($titleFieldFocus)
+                        .onSubmit {
+                            
+                        }.textInputAutocapitalization(TextInputAutocapitalization.words)
+                        .disableAutocorrection(true)
+                    
+                    TextField("Description", text:$desc)
+                        .focused($descFieldFocus)
+                        .onSubmit {
+                            
+                        }.textInputAutocapitalization(TextInputAutocapitalization.words)
+                        .disableAutocorrection(true)
+                }
+            }
+            .toolbar {
+                Button {
+                    let todoItem = ToDoItem(name: title, isComplete: false)
+                    context.insert(todoItem)
+                    dismiss()
+                } label: {
+                    Text("Save")
+                }
+            }
+        }
     }
 }
 

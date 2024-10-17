@@ -21,7 +21,8 @@ struct AddNotes: View {
             VStack{
                 Text("Add Notes")
                 Button("Add") {
-                    context.insert(NotesItem(title: "Title", desc: "This is Description..."))
+                    let notesItem = AddNotes(title: "Title")
+                    //context.insert(notesItem)
                 }
             }
         }.navigationTitle("Add Notes")
