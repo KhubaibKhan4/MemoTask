@@ -12,6 +12,7 @@ struct NotesApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: NotesItem.self)
         }
     }
 }
