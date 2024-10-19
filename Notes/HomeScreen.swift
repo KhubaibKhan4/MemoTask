@@ -71,6 +71,7 @@ struct HomeScreen: View{
                         
                         notesTitle = ""
                         notesDesc  = ""
+                        navTitle = "Add Note"
                     } label: {
                         Label("Add Notes", systemImage: "plus")
                             .foregroundColor(.blue)
