@@ -10,19 +10,20 @@ import SwiftData
 
 
 struct ContentView: View {
-    @State private var isSelected : Bool = false
+    @State private var isSelected : Int = 0
     var body: some View {
-        TabView {
-            Tab("Home", systemImage: "house") {
+        TabView(selection:$isSelected) {
+            Tab("Home", systemImage: "house",value: 0) {
                 HomeScreen()
             }
             
-            Tab("Todo", systemImage: "checklist") {
-                Text("Todo List")
+            Tab("Todo", systemImage: "checklist",value: 1) {
+                TodoScreen()
+               
             }
 
-            Tab("Setting", systemImage: "gear") {
-                Text("Setting Screen")
+            Tab("Setting", systemImage: "gear",value:2) {
+                SettingScreen()
             }
 
         }

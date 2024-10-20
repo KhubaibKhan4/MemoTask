@@ -79,21 +79,21 @@ struct HomeScreen: View{
                 }
             }.sheet(isPresented: $isSheetExpanded) {
                 AddNotes(
-                                    title: $notesTitle,
-                                    desc: $notesDesc,
-                                    navTitle: $navTitle,
-                                    onSave: {
-                                        if let selectedItem = selectedItem {
-                                            selectedItem.title = notesTitle
-                                            selectedItem.desc = notesDesc
-                                        } else {
-                                            let newItem = NotesItem(title: notesTitle, desc: notesDesc)
-                                            context.insert(newItem)
-                                        }
-                                        try? context.save()
-                                        isSheetExpanded = false
+                         title: $notesTitle,
+                         desc: $notesDesc,
+                         navTitle: $navTitle,
+                         onSave: {
+                                  if let selectedItem = selectedItem {
+                                   selectedItem.title = notesTitle
+                                   selectedItem.desc = notesDesc
+                                   } else {
+                                     let newItem = NotesItem(title: notesTitle, desc: notesDesc)
+                                     context.insert(newItem)
                                     }
-                                )
+                                     try? context.save()
+                                     isSheetExpanded = false
+                     }
+                )
             }
         }
         
