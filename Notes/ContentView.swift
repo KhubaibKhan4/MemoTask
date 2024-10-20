@@ -10,8 +10,22 @@ import SwiftData
 
 
 struct ContentView: View {
+    @State private var isSelected : Bool = false
     var body: some View {
-        HomeScreen()
+        TabView {
+            Tab("Home", systemImage: "house") {
+                HomeScreen()
+            }
+            
+            Tab("Todo", systemImage: "checklist") {
+                Text("Todo List")
+            }
+
+            Tab("Setting", systemImage: "gear") {
+                Text("Setting Screen")
+            }
+
+        }
     }
 }
 
