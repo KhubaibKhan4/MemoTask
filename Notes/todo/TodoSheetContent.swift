@@ -16,29 +16,27 @@ struct TodoSheetContent: View {
     @Binding var title: String
     @Binding var isCompleted: Bool
     
+    @State var taskTitle: String
+    
+    var onSave : () -> Void
+    
     var body: some View {
         NavigationStack {
             VStack{
                 Form {
-                    Text("Add Your Task")
+                    Text(taskTitle)
                         .font(.headline)
                         .fontWeight(.bold)
                     
                     TextField(text: $title) {
                         Text("Write your task")
                     }
-                    
                     Toggle("Completed", isOn: $isCompleted)
                 }
             }.toolbar {
                 ToolbarItem (placement:.topBarTrailing){
                     Button("Done") {
-                        var taskItem = TodoItem(title: title, isCompleted: isCompleted)
-                        context.insert(taskItem)
-                       try? context.save()
-                        title = ""
-                        isCompleted = false
-                        dismiss()
+                        onSave()
                     }.foregroundColor(.blue)
                 }
             }
