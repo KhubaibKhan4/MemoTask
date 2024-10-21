@@ -39,6 +39,14 @@ struct HomeScreen: View{
                                     Text(item.desc)
                                         .font(.subheadline)
                                         .lineLimit(2)
+                                }.contextMenu {
+                                    Button(role:.destructive) {
+                                        context.delete(item)
+                                        try? context.save()
+                                    } label: {
+                                        Label("Delete", systemImage: "trash.circle.fill")
+                                    }
+
                                 }
                                     .swipeActions {
                                         Button("Edit", systemImage: "pencil") {
@@ -59,6 +67,8 @@ struct HomeScreen: View{
                                         }
                                     }
                             }
+                        }.refreshable {
+                            print("Refresh Notes")
                         }
                     }
             }
