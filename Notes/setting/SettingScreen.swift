@@ -8,6 +8,10 @@ import SwiftUI
 
 struct SettingScreen: View {
     var body: some View {
-        Text("Setting Screen")
+        Form {
+            Section("Appearance") {
+                Label("Theme", systemImage: "sun.max")
+            }
+        }
     }
 }

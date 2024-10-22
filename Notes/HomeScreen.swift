@@ -47,7 +47,13 @@ struct HomeScreen: View{
                                         Label("Delete", systemImage: "trash.circle.fill")
                                     }
 
-                                }.swipeActions{
+                                }.swipeActions(edge:.leading ,content: {
+                                    Button("Pin", systemImage: "pin") {
+                                        selectedItem = item
+                                        try? context.save()
+                                    }.tint(.yellow)
+                                })
+                                .swipeActions{
                                         Button("Edit", systemImage: "pencil") {
                                             selectedItem = item
                                             notesTitle = item.title
