@@ -7,10 +7,17 @@
 import SwiftUI
 
 struct SettingScreen: View {
+    
+    @Environment(\.colorScheme) private var theme
+    
     var body: some View {
         Form {
             Section("Appearance") {
-                Label("Theme", systemImage: "sun.max")
+                Button {
+                    
+                } label: {
+                    Label("Theme", systemImage: "sun.max")
+                }
             }
         }
     }
