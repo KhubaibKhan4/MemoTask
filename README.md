@@ -30,3 +30,4 @@ We'd like to thank the following individuals and organizations for their contrib
 - No Contributor Yet.
 - Checkout Other cool projects on my profile as well.
 
+# Licence 
