@@ -11,6 +11,7 @@ Memo Notes is a lightweight and intuitive note-taking app built for iOS devices,
 # Furture Planning:
 - Add Todo Task.
 - Add Image and Videos to Notes.
+- Add Embeded URL.
 
 # Sreenshots
 | ![Screenshot 1](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/1.png) | ![Screenshot 2](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/2.png) | ![Screenshot 3](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/3.png) |
