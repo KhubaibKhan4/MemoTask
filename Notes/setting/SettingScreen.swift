@@ -13,6 +13,7 @@ struct SettingScreen: View {
     var body: some View {
         Form {
             Section("Appearance") {
+                Label("Languages", systemImage: "globe")
                 Button {
                     
                 } label: {
