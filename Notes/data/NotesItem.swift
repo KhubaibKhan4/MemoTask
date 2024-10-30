@@ -13,10 +13,12 @@ class NotesItem: Identifiable{
     var id: String
     var title: String
     var desc: String
+    var isPinned: Bool
     
-    init(title: String, desc: String) {
+    init(title: String, desc: String, isPinned: Bool) {
         self.id = UUID().uuidString
         self.title = title
         self.desc = desc
+        self.isPinned = isPinned
     }
 }
