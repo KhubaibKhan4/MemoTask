@@ -9,17 +9,55 @@ import SwiftUI
 struct SettingScreen: View {
     
     @Environment(\.colorScheme) private var theme
+    @State private var fontSize = 12
+    @State private var showLineNo = false
+    @State private var showPreview: Bool = true
     
     var body: some View {
         Form {
-            Section("Appearance") {
-                Label("Languages", systemImage: "globe")
-                Button {
+            Group {
+                Section("Localization") {
+                    HStack {
+                        Label("Languages", systemImage: "globe")
+                        Spacer()
+                        Image(systemName: "chevron.forward")
+                            .foregroundColor(.gray)
+                    }
+                }
+                
+                Section("Color Scheme") {
+                    HStack {
+                        Label("System", systemImage: "sun.max")
+                        Spacer()
+                        Image(systemName: "checkmark")
+                            .foregroundColor(.gray)
+                    }
                     
-                } label: {
-                    Label("Theme", systemImage: "sun.max")
+                    HStack {
+                        Label("Light", systemImage: "sun.max")
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Label("Dark", systemImage: "moon.circle")
+                        Spacer()
+                    }
+                }
+                
+                
+                Section("Font Size") {
+                    HStack {
+                        Stepper(value: $fontSize) {
+                            Label("Font", systemImage: "textformat.size")
+                        }
+                    }
+                }
+                
+                Section("Display") {
+                    Toggle("Show Line Number", isOn: $showLineNo)
+                    Toggle("Show Preview", isOn: $showPreview)
                 }
             }
-        }
+        }.navigationTitle("Setting")
     }
 }
