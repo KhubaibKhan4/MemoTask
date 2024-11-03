@@ -14,50 +14,52 @@ struct SettingScreen: View {
     @State private var showPreview: Bool = true
     
     var body: some View {
-        Form {
-            Group {
-                Section("Localization") {
-                    HStack {
-                        Label("Languages", systemImage: "globe")
-                        Spacer()
-                        Image(systemName: "chevron.forward")
-                            .foregroundColor(.gray)
-                    }
-                }
-                
-                Section("Color Scheme") {
-                    HStack {
-                        Label("System", systemImage: "sun.max")
-                        Spacer()
-                        Image(systemName: "checkmark")
-                            .foregroundColor(.gray)
-                    }
-                    
-                    HStack {
-                        Label("Light", systemImage: "sun.max")
-                        Spacer()
-                    }
-                    
-                    HStack {
-                        Label("Dark", systemImage: "moon.circle")
-                        Spacer()
-                    }
-                }
-                
-                
-                Section("Font Size") {
-                    HStack {
-                        Stepper(value: $fontSize) {
-                            Label("Font", systemImage: "textformat.size")
+        NavigationStack {
+            Form {
+                Group {
+                    Section("Localization") {
+                        HStack {
+                            Label("Languages", systemImage: "globe")
+                            Spacer()
+                            Image(systemName: "chevron.forward")
+                                .foregroundColor(.gray)
                         }
                     }
+                    
+                    Section("Color Scheme") {
+                        HStack {
+                            Label("System", systemImage: "sun.max")
+                            Spacer()
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.gray)
+                        }
+                        
+                        HStack {
+                            Label("Light", systemImage: "sun.max")
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Label("Dark", systemImage: "moon.circle")
+                            Spacer()
+                        }
+                    }
+                    
+                    
+                    Section("Font Size") {
+                        HStack {
+                            Stepper(value: $fontSize) {
+                                Label("Font", systemImage: "textformat.size")
+                            }
+                        }
+                    }
+                    
+                    Section("Display") {
+                        Toggle("Show Line Number", isOn: $showLineNo)
+                        Toggle("Show Preview", isOn: $showPreview)
+                    }
                 }
-                
-                Section("Display") {
-                    Toggle("Show Line Number", isOn: $showLineNo)
-                    Toggle("Show Preview", isOn: $showPreview)
-                }
-            }
-        }.navigationTitle("Setting")
+            }.navigationTitle("Setting")
+        }
     }
 }
