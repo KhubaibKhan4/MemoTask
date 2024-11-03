@@ -38,12 +38,14 @@ struct HomeScreen: View{
                             }else {
                                 Section("Pinned") {
                                         ForEach(pinnedNotestList) { item in
-                                            VStack(alignment: .leading){
-                                                Text(item.title)
-                                                    .font(.headline)
-                                                Text(item.desc)
-                                                    .font(.subheadline)
-                                                    .lineLimit(2)
+                                                NavigationLink(destination: NotesDetail(notesItem: item)) {
+                                                    VStack(alignment: .leading){
+                                                     Text(item.title)
+                                                        .font(.headline)
+                                                     Text(item.desc)
+                                                        .font(.subheadline)
+                                                        .lineLimit(2)
+                                                }
                                             }.contextMenu {
                                                 Button(role:.destructive) {
                                                     context.delete(item)
@@ -83,12 +85,14 @@ struct HomeScreen: View{
                             
                             
                                 ForEach(notestList) { item in
-                                    VStack(alignment: .leading){
-                                        Text(item.title)
-                                            .font(.headline)
-                                        Text(item.desc)
-                                            .font(.subheadline)
-                                            .lineLimit(2)
+                                        NavigationLink(destination: NotesDetail(notesItem: item)) {
+                                            VStack(alignment: .leading){
+                                             Text(item.title)
+                                                .font(.headline)
+                                             Text(item.desc)
+                                                .font(.subheadline)
+                                                .lineLimit(2)
+                                        }
                                     }.contextMenu {
                                         Button(role:.destructive) {
                                             context.delete(item)
