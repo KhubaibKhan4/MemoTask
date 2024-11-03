@@ -14,16 +14,13 @@ struct SettingScreen: View {
     @State private var showPreview: Bool = true
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
                 Group {
                     Section("Localization") {
-                        HStack {
+                        NavigationLink(destination: SettingView(setting: "Language"), label: {
                             Label("Languages", systemImage: "globe")
-                            Spacer()
-                            Image(systemName: "chevron.forward")
-                                .foregroundColor(.gray)
-                        }
+                        })
                     }
                     
                     Section("Color Scheme") {
