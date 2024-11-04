@@ -22,20 +22,23 @@ struct AddNotes: View {
     var body: some View {
         NavigationStack{
             VStack{
-                Text(navTitle)
-                    .font(.title)
-                    .fontWeight(.bold)
                 Form {
                     TextField("Title", text: $title)
                     TextField("Description", text: $desc)
                 }
             }.toolbar {
-                Button {
-                    onSave()
-                } label: {
-                    Text("Save")
+                ToolbarItem(placement: .topBarLeading) {
+                    Text(navTitle)
+                        .font(.title)
+                        .fontWeight(.semibold)
                 }
-
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        onSave()
+                    } label: {
+                        Text("Save")
+                    }
+                }
             }
         }
     }
