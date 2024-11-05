@@ -39,95 +39,13 @@ struct HomeScreen: View{
                             }else {
                                 Section("Pinned") {
                                         ForEach(pinnedNotestList) { item in
-                                                NavigationLink(destination: NotesDetail(notesItem: item)) {
-                                                    VStack(alignment: .leading){
-                                                     Text(item.title)
-                                                        .font(.headline)
-                                                     Text(item.desc)
-                                                        .font(.subheadline)
-                                                        .lineLimit(2)
-                                                }
-                                            }.contextMenu {
-                                                Button(role:.destructive) {
-                                                    context.delete(item)
-                                                    try? context.save()
-                                                } label: {
-                                                    Label("Delete", systemImage: "trash.circle.fill")
-                                                }
-
-                                            }.swipeActions(edge:.leading ,content: {
-                                                Button("UnPin", systemImage: "pin.slash.fill") {
-                                                    selectedItem = item
-                                                    item.isPinned = false
-                                                    try? context.save()
-                                                }.tint(.yellow)
-                                            })
-                                            .swipeActions{
-                                                    Button("Edit", systemImage: "pencil") {
-                                                        selectedItem = item
-                                                        notesTitle = item.title
-                                                        notesDesc = item.desc
-                                                        navTitle = "Update Note"
-                                                        showMenu = true
-                                                        isSheetExpanded = true
-                                                        try? context.save()
-                                                    }.tint(.blue)
-                                                    
-                                                    Button("Delete", systemImage: "trash", role: .destructive) {
-                                                        if let index = notestList.firstIndex(where: {$0.id==item.id}){
-                                                            context.delete(notestList[index])
-                                                            try? context.save()
-                                                        }
-                                                    }
-                                                }
-                                        }
+                                            pinnedNotesView(for: item)
+                                   }
                                 }
                             }
-                            
-                            
-                                ForEach(notestList) { item in
-                                        NavigationLink(destination: NotesDetail(notesItem: item)) {
-                                            VStack(alignment: .leading){
-                                             Text(item.title)
-                                                .font(.headline)
-                                             Text(item.desc)
-                                                .font(.subheadline)
-                                                .lineLimit(2)
-                                        }
-                                    }.contextMenu {
-                                        Button(role:.destructive) {
-                                            context.delete(item)
-                                            try? context.save()
-                                        } label: {
-                                            Label("Delete", systemImage: "trash.circle.fill")
-                                        }
-
-                                    }.swipeActions(edge:.leading ,content: {
-                                        Button("Pin", systemImage: "pin") {
-                                            selectedItem = item
-                                            item.isPinned = true
-                                            try? context.save()
-                                        }.tint(.yellow)
-                                    })
-                                    .swipeActions{
-                                            Button("Edit", systemImage: "pencil") {
-                                                selectedItem = item
-                                                notesTitle = item.title
-                                                notesDesc = item.desc
-                                                navTitle = "Update Note"
-                                                showMenu = true
-                                                isSheetExpanded = true
-                                                try? context.save()
-                                            }.tint(.blue)
-                                            
-                                            Button("Delete", systemImage: "trash", role: .destructive) {
-                                                if let index = notestList.firstIndex(where: {$0.id==item.id}){
-                                                    context.delete(notestList[index])
-                                                    try? context.save()
-                                                }
-                                            }
-                                        }
-                                }
+                            ForEach(notestList) { item in
+                                    notesView(for: item)
+                             }
                         }.refreshable {
                             print("Refresh Notes")
                         }
@@ -167,6 +85,95 @@ struct HomeScreen: View{
             }
         }
         
+    }
+    
+    func pinnedNotesView(for item: NotesItem) -> some View {
+        NavigationLink(destination: NotesDetail(notesItem: item)) {
+            VStack(alignment: .leading){
+             Text(item.title)
+                .font(.headline)
+             Text(item.desc)
+                .font(.subheadline)
+                .lineLimit(2)
+        }
+    }.contextMenu {
+        Button(role:.destructive) {
+            context.delete(item)
+            try? context.save()
+        } label: {
+            Label("Delete", systemImage: "trash.circle.fill")
+        }
+
+    }.swipeActions(edge:.leading ,content: {
+        Button("UnPin", systemImage: "pin.slash.fill") {
+            selectedItem = item
+            item.isPinned = false
+            try? context.save()
+        }.tint(.yellow)
+    })
+    .swipeActions{
+            Button("Edit", systemImage: "pencil") {
+                selectedItem = item
+                notesTitle = item.title
+                notesDesc = item.desc
+                navTitle = "Update Note"
+                showMenu = true
+                isSheetExpanded = true
+                try? context.save()
+            }.tint(.blue)
+            
+            Button("Delete", systemImage: "trash", role: .destructive) {
+                if let index = notestList.firstIndex(where: {$0.id==item.id}){
+                    context.delete(notestList[index])
+                    try? context.save()
+                }
+            }
+        }
+    }
+
+    
+    func notesView(for item: NotesItem) -> some View {
+        NavigationLink(destination: NotesDetail(notesItem: item)) {
+            VStack(alignment: .leading){
+             Text(item.title)
+                .font(.headline)
+             Text(item.desc)
+                .font(.subheadline)
+                .lineLimit(2)
+        }
+    }.contextMenu {
+        Button(role:.destructive) {
+            context.delete(item)
+            try? context.save()
+        } label: {
+            Label("Delete", systemImage: "trash.circle.fill")
+        }
+
+    }.swipeActions(edge:.leading ,content: {
+        Button("Pin", systemImage: "pin") {
+            selectedItem = item
+            item.isPinned = true
+            try? context.save()
+        }.tint(.yellow)
+    })
+    .swipeActions{
+            Button("Edit", systemImage: "pencil") {
+                selectedItem = item
+                notesTitle = item.title
+                notesDesc = item.desc
+                navTitle = "Update Note"
+                showMenu = true
+                isSheetExpanded = true
+                try? context.save()
+            }.tint(.blue)
+            
+            Button("Delete", systemImage: "trash", role: .destructive) {
+                if let index = notestList.firstIndex(where: {$0.id==item.id}){
+                    context.delete(notestList[index])
+                    try? context.save()
+                }
+            }
+        }
     }
 }
 
