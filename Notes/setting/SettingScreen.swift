@@ -5,6 +5,7 @@
 //  Created by Muhammad Khubaib Imtiaz on 20/10/2024.
 //
 import SwiftUI
+import StoreKit
 
 struct SettingScreen: View {
     
@@ -12,6 +13,8 @@ struct SettingScreen: View {
     @State private var fontSize = 12
     @State private var showLineNo = false
     @State private var showPreview: Bool = true
+    
+    @Environment(\.requestReview) private var requestReview
     
     var body: some View {
         NavigationView {
@@ -54,6 +57,15 @@ struct SettingScreen: View {
                     Section("Display") {
                         Toggle("Show Line Number", isOn: $showLineNo)
                         Toggle("Show Preview", isOn: $showPreview)
+                    }
+                    
+                    Section("App Detail") {
+                        Button(action: {
+                            requestReview()
+                        }) {
+                            Label("Review", systemImage: "star")
+                        }
+                        
                     }
                 }
             }.navigationTitle("Setting")
