@@ -30,7 +30,8 @@ struct HomeScreen: View{
         NavigationView {
             VStack{
                 if notestList.isEmpty && pinnedNotestList.isEmpty{
-                        EmptyBox()
+                    ContentUnavailableView("No Notes Found", systemImage: "text.document.fill")
+                    
                     }else{
                         List{
                             if(pinnedNotestList.isEmpty){
