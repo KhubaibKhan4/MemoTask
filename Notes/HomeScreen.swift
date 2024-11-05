@@ -135,35 +135,34 @@ struct HomeScreen: View{
             .navigationTitle("Notes")
             .toolbar {
                 ToolbarItem(placement:.topBarTrailing) {
-                    Button {
-                        isSheetExpanded = true
-                        selectedItem = nil
-                        
-                        notesTitle = ""
-                        notesDesc  = ""
-                        navTitle = "Add Note"
+                    NavigationLink {
+                        AddNotes(
+                            title: $notesTitle,
+                            desc: $notesDesc,
+                            navTitle: $navTitle,
+                            onSave: {
+                                if let selectedItem = selectedItem {
+                                    selectedItem.title = notesTitle
+                                    selectedItem.desc = notesDesc
+                                } else {
+                                    let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false)
+                                    context.insert(newItem)
+                                }
+                                try? context.save()
+                                selectedItem = nil
+                                
+                                notesTitle = ""
+                                notesDesc  = ""
+                                navTitle = "Add Note"
+                                isSheetExpanded = false
+                            }
+                        )
                     } label: {
                         Label("Add Notes", systemImage: "plus")
                             .foregroundColor(.blue)
                     }
+                    
                 }
-            }.sheet(isPresented: $isSheetExpanded) {
-                AddNotes(
-                         title: $notesTitle,
-                         desc: $notesDesc,
-                         navTitle: $navTitle,
-                         onSave: {
-                                  if let selectedItem = selectedItem {
-                                   selectedItem.title = notesTitle
-                                   selectedItem.desc = notesDesc
-                                   } else {
-                                       let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false)
-                                     context.insert(newItem)
-                                    }
-                                     try? context.save()
-                                     isSheetExpanded = false
-                     }
-                )
             }
         }
         

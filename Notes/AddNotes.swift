@@ -17,29 +17,38 @@ struct AddNotes: View {
     @Binding var desc: String
     @Binding var navTitle: String
     
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    
     var onSave: () -> Void
     
     var body: some View {
-        NavigationStack{
             VStack{
                 Form {
                     TextField("Title", text: $title)
                     TextField("Description", text: $desc)
                 }
-            }.toolbar {
+            }.navigationTitle("Add Notes")
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text(navTitle)
-                        .font(.title)
-                        .fontWeight(.semibold)
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.backward")
+                            Text("Cancel")
+                        }
+                    }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         onSave()
+                        presentationMode.wrappedValue.dismiss()
+                        
                     } label: {
                         Text("Save")
                     }
                 }
             }
-        }
     }
 }

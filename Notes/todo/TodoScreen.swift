@@ -102,7 +102,7 @@ struct TodoScreen: View {
                     
                     
                     if(inCompleteList.isEmpty){
-                        
+                       
                     }else{
                         Section("InComplete Task") {
                             ForEach(inCompleteList) { item in
