@@ -13,8 +13,8 @@ struct HomeScreen: View{
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     
-    @Query(filter: #Predicate<NotesItem> {$0.isPinned==false},animation: .smooth) private var notestList : [NotesItem]
-    @Query(filter: #Predicate<NotesItem> {$0.isPinned==true}, animation: .smooth) private var pinnedNotestList : [NotesItem]
+    @Query(filter: #Predicate<NotesItem> {$0.isPinned == false}) private var notestList : [NotesItem]
+    @Query(filter: #Predicate<NotesItem> {$0.isPinned==true}, animation: .spring) private var pinnedNotestList : [NotesItem]
     
     @State private var selectedItem: NotesItem?
     @State private var isSheetExpanded: Bool = false
