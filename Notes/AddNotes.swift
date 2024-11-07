@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import MapKit
 
 struct AddNotes: View {
     
@@ -17,6 +18,8 @@ struct AddNotes: View {
     @Binding var desc: String
     @Binding var navTitle: String
     
+    @State private var position: MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)))
+    
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     
     var onSave: () -> Void
@@ -24,8 +27,21 @@ struct AddNotes: View {
     var body: some View {
             VStack{
                 Form {
-                    TextField("Title", text: $title)
-                    TextField("Description", text: $desc)
+                    Section("Note") {
+                        TextField("Title", text: $title)
+                        TextField("Description", text: $desc)
+                    }
+                    Section("Map") {
+                        Map(position: $position){
+                            Marker("Paris Chai Shop", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522))
+                        }
+                            .mapControls {
+                                MapScaleView()
+                                MapCompass()
+                                MapPitchToggle()
+                                MapUserLocationButton()
+                            }.frame(width: .infinity, height: 300, alignment: .center)
+                    }
                 }
             }.navigationTitle("Add Notes")
             .navigationBarBackButtonHidden(true)
