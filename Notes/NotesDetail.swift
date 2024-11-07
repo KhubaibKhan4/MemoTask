@@ -14,9 +14,12 @@ struct NotesDetail : View {
             Text(notesItem.title)
                 .font(.title)
                 .fontWeight(.bold)
+                .lineLimit(3)
             
             Text(notesItem.desc)
                 .font(.caption)
-        }
+                
+        }.padding()
+        Spacer()
     }
 }

@@ -60,19 +60,20 @@ struct HomeScreen: View{
                             desc: $notesDesc,
                             navTitle: $navTitle,
                             onSave: {
-                                if let selectedItem = selectedItem {
-                                    selectedItem.title = notesTitle
-                                    selectedItem.desc = notesDesc
-                                } else {
-                                    let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false)
-                                    context.insert(newItem)
-                                }
-                                try? context.save()
+//                                if let selectedItem = selectedItem {
+//                                    selectedItem.title = notesTitle
+//                                    selectedItem.desc = notesDesc
+//                                } else {
+//                                    
+//                                }
                                 selectedItem = nil
                                 
                                 notesTitle = ""
                                 notesDesc  = ""
                                 navTitle = "Add Note"
+                                let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false)
+                                context.insert(newItem)
+                                try? context.save()
                                 isSheetExpanded = false
                             }
                         )
@@ -82,6 +83,33 @@ struct HomeScreen: View{
                     }
                     
                 }
+            }.sheet(isPresented: $isSheetExpanded,onDismiss: {
+                selectedItem = nil
+                navTitle = "Add Note"
+                notesTitle = ""
+                notesDesc  = ""
+                isSheetExpanded = false
+            }) {
+                UpdateNotes(
+                         title: $notesTitle,
+                         desc: $notesDesc,
+                         navTitle: $navTitle,
+                         onSave: {
+                                  if let selectedItem = selectedItem {
+                                   selectedItem.title = notesTitle
+                                   selectedItem.desc = notesDesc
+                                   } else {
+                                       let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false)
+                                     context.insert(newItem)
+                                    }
+                                     try? context.save()
+                                     isSheetExpanded = false
+                                     selectedItem = nil
+                             notesTitle = ""
+                             notesDesc = ""
+                             navTitle = "Add Note"
+                     }
+                )
             }
         }
         
