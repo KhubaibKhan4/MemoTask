@@ -18,6 +18,8 @@ struct AddNotes: View {
     @Binding var desc: String
     @Binding var navTitle: String
     
+    @State private var isMapSheet: Bool = false
+    
     @State private var position: MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)))
     
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
@@ -31,9 +33,33 @@ struct AddNotes: View {
                         TextField("Title", text: $title)
                         TextField("Description", text: $desc)
                     }
+                    Section("Map") {
+                        Button("Add Map", systemImage: "map.circle") {
+                            isMapSheet = !isMapSheet
+                        }
+                        .foregroundColor(.white)
+                        .buttonStyle(.borderedProminent)
+                    }
                 }
             }.navigationTitle("Add Notes")
             .navigationBarBackButtonHidden(true)
+            .sheet(isPresented: $isMapSheet, content: {
+                NavigationStack {
+                    ZStack {
+                        Map(position: $position)
+                            .frame(width: .infinity, height: .infinity)
+                    }.navigationTitle("Add Map")
+                        .toolbarTitleDisplayMode(.inline)
+                        .toolbarBackground(.hidden, for: ToolbarPlacement.navigationBar)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("Add Location") {
+                                
+                            }
+                        }
+                    }
+                }
+            })
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
