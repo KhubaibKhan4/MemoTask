@@ -19,6 +19,7 @@ struct AddNotes: View {
     @Binding var navTitle: String
     
     @State private var isMapSheet: Bool = false
+    @State private var locationList = [CLLocationCoordinate2D]()
     
     @State private var position: MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)))
     
@@ -46,15 +47,27 @@ struct AddNotes: View {
             .sheet(isPresented: $isMapSheet, content: {
                 NavigationStack {
                     ZStack {
-                        Map(position: $position)
-                            .frame(width: .infinity, height: .infinity)
+                        MapReader { proxy in
+                            Map(position: $position) {
+                                Marker(coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
+                                    Label("My Location", image: "mappin")
+                                }
+                            }
+                                .frame(width: .infinity, height: .infinity)
+                                .onTapGesture {position in
+                                    if let mapLocation = proxy.convert(position, from: .local) {
+                                        print("Location: \(mapLocation)")
+                                        locationList.append(mapLocation)
+                                    }
+                                }
+                        }
                     }.navigationTitle("Add Map")
                         .toolbarTitleDisplayMode(.inline)
                         .toolbarBackground(.hidden, for: ToolbarPlacement.navigationBar)
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button("Add Location") {
-                                
+                                isMapSheet = !isMapSheet
                             }
                         }
                     }
