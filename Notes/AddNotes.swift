@@ -31,17 +31,6 @@ struct AddNotes: View {
                         TextField("Title", text: $title)
                         TextField("Description", text: $desc)
                     }
-                    Section("Map") {
-                        Map(position: $position){
-                            Marker("Paris Chai Shop", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522))
-                        }
-                            .mapControls {
-                                MapScaleView()
-                                MapCompass()
-                                MapPitchToggle()
-                                MapUserLocationButton()
-                            }.frame(width: .infinity, height: 300, alignment: .center)
-                    }
                 }
             }.navigationTitle("Add Notes")
             .navigationBarBackButtonHidden(true)
