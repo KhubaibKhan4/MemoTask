@@ -25,6 +25,7 @@ struct AddNotes: View {
     
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     @State var selectedLocation : CLLocationCoordinate2D?
+    @State private var selectedLocationName: String = "No Location Selected"
     
     var onSave: () -> Void
     
@@ -44,7 +45,7 @@ struct AddNotes: View {
                         
                         Map(position: $position) {
                                             if let location = selectedLocation {
-                                                Marker("Selected Location", coordinate: location)
+                                                Marker(selectedLocationName, coordinate: location)
                                             }
                                         }
                                         .frame(height: 250)
@@ -68,7 +69,7 @@ struct AddNotes: View {
                             MapReader { proxy in
                                 Map(position: $position) {
                                     Marker(coordinate: selectedLocation ?? CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
-                                        Label("My Location", image: "mappin")
+                                        Label(selectedLocationName, image: "mappin")
                                     }
                                 }
                                     .frame(width: .infinity, height: .infinity)
@@ -84,6 +85,9 @@ struct AddNotes: View {
                                                                                 span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
                                                                             )
                                                                         )
+                                            fetchLocationName(for: mapLocation) { name in
+                                                self.selectedLocationName = name ?? "Unknown"
+                                            }
                                         }
                                     }
                             }
@@ -121,4 +125,24 @@ struct AddNotes: View {
                 }
             }
     }
+    
+    private func fetchLocationName(for coordinate: CLLocationCoordinate2D, completion: @escaping (String?) -> Void) {
+            let geocoder = CLGeocoder()
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            geocoder.reverseGeocodeLocation(location) { placemarks, error in
+                if let error = error {
+                    print("Reverse geocoding error: \(error.localizedDescription)")
+                    completion(nil)
+                    return
+                }
+                if let placemark = placemarks?.first {
+                    let name = [placemark.name, placemark.locality, placemark.country]
+                        .compactMap { $0 }
+                        .joined(separator: ", ")
+                    completion(name)
+                } else {
+                    completion(nil)
+                }
+            }
+        }
 }
