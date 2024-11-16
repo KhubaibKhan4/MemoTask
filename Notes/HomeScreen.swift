@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import CoreLocation
 
 struct HomeScreen: View{
     
@@ -22,6 +23,9 @@ struct HomeScreen: View{
     @State var notesTitle: String = ""
     @State var notesDesc: String = ""
     @State var navTitle: String = "Add Notes"
+    
+    @State var selectedLocation: CLLocationCoordinate2D?
+    @State var selectedLocationName: String = "No Location Selected"
     
     @State var showMenu: Bool = false
         
@@ -59,6 +63,8 @@ struct HomeScreen: View{
                             title: $notesTitle,
                             desc: $notesDesc,
                             navTitle: $navTitle,
+                            selectedLocation: $selectedLocation,
+                            selectedLocationName: $selectedLocationName,
                             onSave: {
 //                                if let selectedItem = selectedItem {
 //                                    selectedItem.title = notesTitle
@@ -71,7 +77,7 @@ struct HomeScreen: View{
                                 notesTitle = ""
                                 notesDesc  = ""
                                 navTitle = "Add Note"
-                                let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false)
+                                let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false, location: selectedLocation)
                                 context.insert(newItem)
                                 try? context.save()
                                 isSheetExpanded = false
@@ -98,8 +104,9 @@ struct HomeScreen: View{
                                   if let selectedItem = selectedItem {
                                    selectedItem.title = notesTitle
                                    selectedItem.desc = notesDesc
+                                   selectedItem.location = selectedLocation
                                    } else {
-                                       let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false)
+                                       let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false,location: selectedLocation)
                                      context.insert(newItem)
                                     }
                                      try? context.save()
