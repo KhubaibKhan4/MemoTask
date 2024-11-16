@@ -24,6 +24,7 @@ struct AddNotes: View {
     @State private var position: MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)))
     
     @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    @State var selectedLocation : CLLocationCoordinate2D?
     
     var onSave: () -> Void
     
@@ -40,6 +41,23 @@ struct AddNotes: View {
                         }
                         .foregroundColor(.white)
                         .buttonStyle(.borderedProminent)
+                        
+                        Map(position: $position) {
+                                            if let location = selectedLocation {
+                                                Marker("Selected Location", coordinate: location)
+                                            }
+                                        }
+                                        .frame(height: 250)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        .overlay(
+                                            selectedLocation == nil ?
+                                                Text("No location selected")
+                                                    .foregroundColor(.gray)
+                                                    .padding()
+                                                    .background(Color.white.opacity(0.8))
+                                                    .cornerRadius(10)
+                                                : nil
+                                        )
                     }
                 }
             }.navigationTitle("Add Notes")
@@ -47,20 +65,28 @@ struct AddNotes: View {
             .sheet(isPresented: $isMapSheet, content: {
                 NavigationStack {
                     ZStack {
-                        MapReader { proxy in
-                            Map(position: $position) {
-                                Marker(coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
-                                    Label("My Location", image: "mappin")
-                                }
-                            }
-                                .frame(width: .infinity, height: .infinity)
-                                .onTapGesture {position in
-                                    if let mapLocation = proxy.convert(position, from: .local) {
-                                        print("Location: \(mapLocation)")
-                                        locationList.append(mapLocation)
+                            MapReader { proxy in
+                                Map(position: $position) {
+                                    Marker(coordinate: selectedLocation ?? CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
+                                        Label("My Location", image: "mappin")
                                     }
                                 }
-                        }
+                                    .frame(width: .infinity, height: .infinity)
+                                    .onTapGesture {position in
+                                        if let mapLocation = proxy.convert(position, from: .local) {
+                                            print("Location: \(mapLocation)")
+                                            selectedLocation = mapLocation
+                                            locationList.append(mapLocation)
+                                            
+                                            self.position = .region(
+                                                                            MKCoordinateRegion(
+                                                                                center: mapLocation,
+                                                                                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+                                                                            )
+                                                                        )
+                                        }
+                                    }
+                            }
                     }.navigationTitle("Add Map")
                         .toolbarTitleDisplayMode(.inline)
                         .toolbarBackground(.hidden, for: ToolbarPlacement.navigationBar)
