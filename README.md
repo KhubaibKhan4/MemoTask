@@ -18,6 +18,24 @@ Memo Notes is a lightweight and intuitive note-taking app built for iOS devices,
 | --- | --- | --- |
 | ![Screenshot 4](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/4.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/5.png) |  |
 
+## Star History
+
+<a href="https://star-history.com/#KhubaibKhan4/MemoNotes&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=KhubaibKhan4/MemoNotes&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=KhubaibKhan4/MemoNotes&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=KhubaibKhan4/MemoNotes&type=Date" />
+ </picture>
+</a>
+
+**Stargazers**
+
+[![Stargazers repo roster for @KhubaibKhan4/MemoNotes](http://reporoster.com/stars/dark/KhubaibKhan4/MemoNotes)](https://github.com/KhubaibKhan4/MemoNotes/stargazers)
+
+**Forkers**
+
+[![Forkers repo roster for @KhubaibKhan4/MemoNotes](http://reporoster.com/forks/dark/KhubaibKhan4/MemoNotes)](https://github.com/KhubaibKhan4/MemoNotes/network/members)
+
 ## Community Resources
 Join our community to connect with other users and contributors:
 
