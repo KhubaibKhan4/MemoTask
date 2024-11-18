@@ -71,7 +71,14 @@ struct AddNotes: View {
                                     Marker(coordinate: selectedLocation ?? CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
                                         Label(selectedLocationName, image: "mappin")
                                     }
-                                }
+                                }.mapControls({
+                                    /// Shows up when you pitch to zoom
+                                        MapScaleView()
+                                        /// Shows up when you rotate the map
+                                        MapCompass()
+                                        /// 3D and 2D button on the top right
+                                        MapPitchToggle()
+                                })
                                     .frame(width: .infinity, height: .infinity)
                                     .onTapGesture {position in
                                         if let mapLocation = proxy.convert(position, from: .local) {

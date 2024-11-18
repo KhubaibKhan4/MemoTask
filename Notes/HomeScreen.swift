@@ -72,6 +72,10 @@ struct HomeScreen: View{
 //                                } else {
 //                                    
 //                                }
+                                selectedItem = nil
+                                notesTitle = ""
+                                notesDesc = ""
+                                navTitle = "Add Note"
                                 let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false, location: selectedLocation)
                                 //context.insert(newItem)
                                 try? context.save()
@@ -95,6 +99,8 @@ struct HomeScreen: View{
                          title: $notesTitle,
                          desc: $notesDesc,
                          navTitle: $navTitle,
+                         selectedLocation: $selectedLocation,
+                         selectedLocationName: $selectedLocationName,
                          onSave: {
                                   if let selectedItem = selectedItem {
                                    selectedItem.title = notesTitle
@@ -146,6 +152,7 @@ struct HomeScreen: View{
                 selectedItem = item
                 notesTitle = item.title
                 notesDesc = item.desc
+                selectedLocation = item.location
                 navTitle = "Update Note"
                 showMenu = true
                 isSheetExpanded = true
@@ -189,8 +196,9 @@ struct HomeScreen: View{
     .swipeActions{
             Button("Edit", systemImage: "pencil") {
                 selectedItem = item
-                notesTitle = item.title
-                notesDesc = item.desc
+                notesTitle = selectedItem?.title ?? ""
+                notesDesc = selectedItem?.desc ?? ""
+                selectedLocation = selectedItem?.location
                 navTitle = "Update Note"
                 showMenu = true
                 isSheetExpanded = true
@@ -205,6 +213,25 @@ struct HomeScreen: View{
             }
         }
     }
+    private func fetchLocationName(for coordinate: CLLocationCoordinate2D, completion: @escaping (String?) -> Void) {
+            let geocoder = CLGeocoder()
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            geocoder.reverseGeocodeLocation(location) { placemarks, error in
+                if let error = error {
+                    print("Reverse geocoding error: \(error.localizedDescription)")
+                    completion(nil)
+                    return
+                }
+                if let placemark = placemarks?.first {
+                    let name = [placemark.name, placemark.locality, placemark.country]
+                        .compactMap { $0 }
+                        .joined(separator: ", ")
+                    completion(name)
+                } else {
+                    completion(nil)
+                }
+            }
+        }
 }
 
 #Preview {
