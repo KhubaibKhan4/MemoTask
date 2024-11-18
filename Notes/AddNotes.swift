@@ -116,6 +116,9 @@ struct AddNotes: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        var item = NotesItem(title: title, desc: desc, isPinned: false, location: selectedLocation)
+                        context.insert(item)
+                        try? context.save()
                         onSave()
                         presentationMode.wrappedValue.dismiss()
                         

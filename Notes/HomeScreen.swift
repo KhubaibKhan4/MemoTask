@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import CoreLocation
+import MapKit
 
 struct HomeScreen: View{
     
@@ -26,6 +27,7 @@ struct HomeScreen: View{
     
     @State var selectedLocation: CLLocationCoordinate2D?
     @State var selectedLocationName: String = "No Location Selected"
+    @State var position : MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 23.23213, longitude: 98.23123), latitudinalMeters: 1, longitudinalMeters: 1))
     
     @State var showMenu: Bool = false
         
@@ -70,13 +72,8 @@ struct HomeScreen: View{
 //                                } else {
 //                                    
 //                                }
-                                selectedItem = nil
-                                
-                                notesTitle = ""
-                                notesDesc  = ""
-                                navTitle = "Add Note"
                                 let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false, location: selectedLocation)
-                                context.insert(newItem)
+                                //context.insert(newItem)
                                 try? context.save()
                                 isSheetExpanded = false
                             }

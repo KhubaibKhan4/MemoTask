@@ -9,7 +9,7 @@ import SwiftUI
 import CoreLocation
 import MapKit
 
-struct NotesDetail : View {
+struct NotesDetail: View {
     @State var notesItem: NotesItem
     @State private var position: MapCameraPosition = .region(
         MKCoordinateRegion(
@@ -20,43 +20,71 @@ struct NotesDetail : View {
     
     @State var selectedLocationName: String = ""
     
-   
-    
-    
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(notesItem.title)
-                .font(.title)
-                .fontWeight(.bold)
-                .lineLimit(3)
-            
-            Text(notesItem.desc)
-                .font(.caption)
-            
-            Form {
-                if let location = notesItem.location {
-                    Map(position: $position) {
-                        if let location = notesItem.location {
-                            Marker(selectedLocationName, coordinate: location )
-                        }
-                    }.frame(height: 250)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Spacer(minLength: 10)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(notesItem.title)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .lineLimit(3)
+                    
+                    Text(notesItem.desc)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.leading)
                 }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(UIColor.secondarySystemBackground))
+                )
+                .padding(.horizontal)
                 
+                if let location = notesItem.location {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Location")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                        
+                        Map(position: $position) {
+                            Marker(selectedLocationName, coordinate: location)
+                        }
+                        .frame(height: 250)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(
+                            Text(selectedLocationName)
+                                .padding(8)
+                                .background(Color.white.opacity(0.8))
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                                .shadow(radius: 4),
+                            alignment: .topLeading
+                        )
+                    }
+                    .padding()
+                }
             }
-                
-        }.padding()
             .onAppear {
                 if let location = notesItem.location {
-                    fetchLocationName(for: location) {name in
+                    // Update the map position and fetch location name
+                    position = .region(
+                        MKCoordinateRegion(
+                            center: location,
+                            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                        )
+                    )
+                    fetchLocationName(for: location) { name in
                         selectedLocationName = name ?? "Unknown"
                     }
-                   
                 }
             }
-        Spacer()
+        }
+        .navigationTitle("Note Details")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
+    // Reverse Geocoding to Fetch Location Name
     private func fetchLocationName(for coordinate: CLLocationCoordinate2D, completion: @escaping (String?) -> Void) {
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
