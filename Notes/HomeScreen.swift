@@ -63,8 +63,6 @@ struct HomeScreen: View{
                             title: $notesTitle,
                             desc: $notesDesc,
                             navTitle: $navTitle,
-                            selectedLocation: $selectedLocation,
-                            selectedLocationName: $selectedLocationName,
                             onSave: {
 //                                if let selectedItem = selectedItem {
 //                                    selectedItem.title = notesTitle
