@@ -111,45 +111,49 @@ struct UpdateNotes: View {
             }
             .sheet(isPresented: $isMapSheet) {
                 NavigationStack {
-                                    ZStack {
-                                            MapReader { proxy in
-                                                Map(position: $position) {
-                                                    Marker(coordinate: selectedLocation ?? CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
-                                                        Label(selectedLocationName, image: "mappin")
-                                                    }
-                                                }.mapControls({
-                                                    /// Shows up when you pitch to zoom
-                                                        MapScaleView()
-                                                        /// Shows up when you rotate the map
-                                                        MapCompass()
-                                                        /// 3D and 2D button on the top right
-                                                        MapPitchToggle()
-                                                })
-                                                    .frame(width: .infinity, height: .infinity)
-                                                    .onTapGesture {position in
-                                                        if let mapLocation = proxy.convert(position, from: .local) {
-                                                            print("Location: \(mapLocation)")
-                                                            selectedLocation = mapLocation
-                                                            
-                                                            self.position = .region(
-                                                                                            MKCoordinateRegion(
-                                                                                                center: mapLocation,
-                                                                                                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-                                                                                            )
-                                                                                        )
-                                                            fetchLocationName(for: mapLocation) { name in
-                                                                self.selectedLocationName = name ?? "Unknown"
-                                                            }
-                                                        }
-                                                    }
-                                            }
+                    ZStack {
+                        MapReader { proxy in
+                            Map(position: $position) {
+                                Marker(coordinate: selectedLocation ?? CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
+                                    Label(selectedLocationName, image: "mappin")
+                                }
+                            }.mapControls({
+                                MapScaleView()
+                                MapCompass()
+                                MapPitchToggle()
+                            })
+                            .frame(width: .infinity, height: .infinity)
+                            .onTapGesture {position in
+                                if let mapLocation = proxy.convert(position, from: .local) {
+                                    print("Location: \(mapLocation)")
+                                    selectedLocation = mapLocation
+                                    
+                                    self.position = .region(
+                                        MKCoordinateRegion(
+                                            center: mapLocation,
+                                            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+                                        )
+                                    )
+                                    fetchLocationName(for: mapLocation) { name in
+                                        self.selectedLocationName = name ?? "Unknown"
                                     }
+                                }
+                            }
+                        }
+                    }
                     .navigationTitle("Select Location")
                     .navigationBarTitleDisplayMode(.inline)
+                    .toolbarBackground(.hidden, for: .navigationBar)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button("Cancel") {
                                 dismiss()
+                            }
+                        }
+                        
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("Update Location") {
+                                isMapSheet = !isMapSheet
                             }
                         }
                     }
@@ -157,21 +161,21 @@ struct UpdateNotes: View {
             }
         }
     }
-    
     private func fetchLocationName(for coordinate: CLLocationCoordinate2D, completion: @escaping (String?) -> Void) {
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+        geocoder.reverseGeocodeLocation(location) {placemarks, error in
             if let error = error {
-                print("Reverse geocoding error: \(error.localizedDescription)")
                 completion(nil)
                 return
             }
+            
             if let placemark = placemarks?.first {
-                let name = [placemark.name, placemark.locality, placemark.country]
+                let name = [placemark.name,placemark.locality,placemark.country]
                     .compactMap { $0 }
                     .joined(separator: ", ")
                 completion(name)
+                
             } else {
                 completion(nil)
             }
