@@ -166,17 +166,17 @@ struct UpdateNotes: View {
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         geocoder.reverseGeocodeLocation(location) {placemarks, error in
             if let error = error {
+                completion(error.localizedDescription)
+            }else{
                 completion(nil)
-                return
             }
             
             if let placemark = placemarks?.first {
-                let name = [placemark.name,placemark.locality,placemark.country]
-                    .compactMap { $0 }
+                let name = [placemark.name, placemark.locality, placemark.country]
+                    .compactMap{$0}
                     .joined(separator: ", ")
                 completion(name)
-                
-            } else {
+            }else {
                 completion(nil)
             }
         }
