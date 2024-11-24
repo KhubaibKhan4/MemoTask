@@ -15,8 +15,7 @@ struct HomeScreen: View{
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     
-    @Query(filter: #Predicate<NotesItem> {$0.isPinned == false}) private var notestList : [NotesItem]
-    @Query(filter: #Predicate<NotesItem> {$0.isPinned==true}, animation: .spring) private var pinnedNotestList : [NotesItem]
+    @Query private var notestList : [NotesItem]
     
     @State private var selectedItem: NotesItem?
     @State private var isSheetExpanded: Bool = false
@@ -30,26 +29,37 @@ struct HomeScreen: View{
     @State var position : MapCameraPosition = .region(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 23.23213, longitude: 98.23123), latitudinalMeters: 1, longitudinalMeters: 1))
     
     @State var showMenu: Bool = false
-        
+    @State var searchText: String = ""
+    var searchResults: [NotesItem] {
+        if searchText.isEmpty {
+            return notestList
+        } else {
+           return notestList.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    @State var isSearchPresented: Bool = false
     
     var body : some View {
         NavigationView {
             VStack{
-                if notestList.isEmpty && pinnedNotestList.isEmpty{
+                if searchResults.isEmpty {
                     ContentUnavailableView("No Notes Found", systemImage: "text.document.fill")
                     
                     }else{
                         List{
-                            if(pinnedNotestList.isEmpty){
+                            if(searchResults.isEmpty){
                                 
                             }else {
-                                Section("Pinned") {
-                                        ForEach(pinnedNotestList) { item in
-                                            pinnedNotesView(for: item)
-                                   }
+                                if(!searchResults.filter{$0.isPinned}.isEmpty){
+                                    Section("Pinned") {
+                                        ForEach(searchResults.filter { $0.isPinned } ) { item in
+                                                pinnedNotesView(for: item)
+                                       }
+                                    }
                                 }
+                                
                             }
-                            ForEach(notestList) { item in
+                            ForEach(searchResults.filter {!$0.isPinned}) { item in
                                     notesView(for: item)
                              }
                         }.refreshable {
@@ -58,6 +68,7 @@ struct HomeScreen: View{
                     }
             }
             .navigationTitle("Notes")
+            .searchable(text: $searchText, isPresented: $isSearchPresented)
             .toolbar {
                 ToolbarItem(placement:.topBarTrailing) {
                     NavigationLink {
