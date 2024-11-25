@@ -60,6 +60,15 @@ struct AddNotes: View {
                         : nil
                     )
                 }
+                
+                Section("Photos") {
+                    Button("Add Media", systemImage: "photo.on.rectangle.angled.fill") {
+                        
+                    }
+                    .foregroundColor(.white)
+                    .buttonStyle(.borderedProminent)
+                }
+                
             }
         }.navigationTitle("Add Notes")
             .navigationBarBackButtonHidden(true)
