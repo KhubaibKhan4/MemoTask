@@ -30,84 +30,84 @@ struct AddNotes: View {
     var onSave: () -> Void
     
     var body: some View {
-            VStack{
-                Form {
-                    Section("Note") {
-                        TextField("Title", text: $title)
-                        TextField("Description", text: $desc)
-                    }
-                    Section("Map") {
-                        Button("Add Map", systemImage: "map.circle") {
-                            isMapSheet = !isMapSheet
-                        }
-                        .foregroundColor(.white)
-                        .buttonStyle(.borderedProminent)
-                        
-                        Map(position: $position) {
-                                            if let location = selectedLocation {
-                                                Marker(selectedLocationName, coordinate: location)
-                                            }
-                                        }
-                                        .frame(height: 250)
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                                        .overlay(
-                                            selectedLocation == nil ?
-                                                Text("No location selected")
-                                                    .foregroundColor(.gray)
-                                                    .padding()
-                                                    .background(Color.white.opacity(0.8))
-                                                    .cornerRadius(10)
-                                                : nil
-                                        )
-                    }
+        VStack{
+            Form {
+                Section("Note") {
+                    TextField("Title", text: $title)
+                    TextField("Description", text: $desc)
                 }
-            }.navigationTitle("Add Notes")
+                Section("Map") {
+                    Button("Add Map", systemImage: "map.circle") {
+                        isMapSheet = !isMapSheet
+                    }
+                    .foregroundColor(.white)
+                    .buttonStyle(.borderedProminent)
+                    
+                    Map(position: $position) {
+                        if let location = selectedLocation {
+                            Marker(selectedLocationName, coordinate: location)
+                        }
+                    }
+                    .frame(height: 250)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(
+                        selectedLocation == nil ?
+                        Text("No location selected")
+                            .foregroundColor(.gray)
+                            .padding()
+                            .background(Color.white.opacity(0.8))
+                            .cornerRadius(10)
+                        : nil
+                    )
+                }
+            }
+        }.navigationTitle("Add Notes")
             .navigationBarBackButtonHidden(true)
             .sheet(isPresented: $isMapSheet, content: {
                 NavigationStack {
                     ZStack {
-                            MapReader { proxy in
-                                Map(position: $position) {
-                                    Marker(coordinate: selectedLocation ?? CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
-                                        Label(selectedLocationName, image: "mappin")
+                        MapReader { proxy in
+                            Map(position: $position) {
+                                Marker(coordinate: selectedLocation ?? CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)) {
+                                    Label(selectedLocationName, image: "mappin")
+                                }
+                            }.mapControls({
+                                /// Shows up when you pitch to zoom
+                                MapScaleView()
+                                /// Shows up when you rotate the map
+                                MapCompass()
+                                /// 3D and 2D button on the top right
+                                MapPitchToggle()
+                            })
+                            .frame(width: .infinity, height: .infinity)
+                            .onTapGesture {position in
+                                if let mapLocation = proxy.convert(position, from: .local) {
+                                    print("Location: \(mapLocation)")
+                                    selectedLocation = mapLocation
+                                    locationList.append(mapLocation)
+                                    
+                                    self.position = .region(
+                                        MKCoordinateRegion(
+                                            center: mapLocation,
+                                            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+                                        )
+                                    )
+                                    fetchLocationName(for: mapLocation) { name in
+                                        self.selectedLocationName = name ?? "Unknown"
                                     }
-                                }.mapControls({
-                                    /// Shows up when you pitch to zoom
-                                        MapScaleView()
-                                        /// Shows up when you rotate the map
-                                        MapCompass()
-                                        /// 3D and 2D button on the top right
-                                        MapPitchToggle()
-                                })
-                                    .frame(width: .infinity, height: .infinity)
-                                    .onTapGesture {position in
-                                        if let mapLocation = proxy.convert(position, from: .local) {
-                                            print("Location: \(mapLocation)")
-                                            selectedLocation = mapLocation
-                                            locationList.append(mapLocation)
-                                            
-                                            self.position = .region(
-                                                                            MKCoordinateRegion(
-                                                                                center: mapLocation,
-                                                                                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-                                                                            )
-                                                                        )
-                                            fetchLocationName(for: mapLocation) { name in
-                                                self.selectedLocationName = name ?? "Unknown"
-                                            }
-                                        }
-                                    }
+                                }
                             }
+                        }
                     }.navigationTitle("Add Map")
                         .toolbarTitleDisplayMode(.inline)
                         .toolbarBackground(.hidden, for: ToolbarPlacement.navigationBar)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button("Add Location") {
-                                isMapSheet = !isMapSheet
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button("Add Location") {
+                                    isMapSheet = !isMapSheet
+                                }
                             }
                         }
-                    }
                 }
             })
             .toolbar {
@@ -137,22 +137,22 @@ struct AddNotes: View {
     }
     
     private func fetchLocationName(for coordinate: CLLocationCoordinate2D, completion: @escaping (String?) -> Void) {
-            let geocoder = CLGeocoder()
-            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            geocoder.reverseGeocodeLocation(location) { placemarks, error in
-                if let error = error {
-                    print("Reverse geocoding error: \(error.localizedDescription)")
-                    completion(nil)
-                    return
-                }
-                if let placemark = placemarks?.first {
-                    let name = [placemark.name, placemark.locality, placemark.country]
-                        .compactMap { $0 }
-                        .joined(separator: ", ")
-                    completion(name)
-                } else {
-                    completion(nil)
-                }
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                print("Reverse geocoding error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            if let placemark = placemarks?.first {
+                let name = [placemark.name, placemark.locality, placemark.country]
+                    .compactMap { $0 }
+                    .joined(separator: ", ")
+                completion(name)
+            } else {
+                completion(nil)
             }
         }
+    }
 }

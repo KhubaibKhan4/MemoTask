@@ -34,7 +34,7 @@ struct HomeScreen: View{
         if searchText.isEmpty {
             return notestList
         } else {
-           return notestList.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+            return notestList.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
         }
     }
     @State var isSearchPresented: Bool = false
@@ -45,27 +45,27 @@ struct HomeScreen: View{
                 if searchResults.isEmpty {
                     ContentUnavailableView("No Notes Found", systemImage: "text.document.fill")
                     
-                    }else{
-                        List{
-                            if(searchResults.isEmpty){
-                                
-                            }else {
-                                if(!searchResults.filter{$0.isPinned}.isEmpty){
-                                    Section("Pinned") {
-                                        ForEach(searchResults.filter { $0.isPinned } ) { item in
-                                                pinnedNotesView(for: item)
-                                       }
+                }else{
+                    List{
+                        if(searchResults.isEmpty){
+                            
+                        }else {
+                            if(!searchResults.filter{$0.isPinned}.isEmpty){
+                                Section("Pinned") {
+                                    ForEach(searchResults.filter { $0.isPinned } ) { item in
+                                        pinnedNotesView(for: item)
                                     }
                                 }
-                                
                             }
-                            ForEach(searchResults.filter {!$0.isPinned}) { item in
-                                    notesView(for: item)
-                             }
-                        }.refreshable {
-                            print("Refresh Notes")
+                            
                         }
+                        ForEach(searchResults.filter {!$0.isPinned}) { item in
+                            notesView(for: item)
+                        }
+                    }.refreshable {
+                        print("Refresh Notes")
                     }
+                }
             }
             .navigationTitle("Notes")
             .searchable(text: $searchText, isPresented: $isSearchPresented)
@@ -77,12 +77,12 @@ struct HomeScreen: View{
                             desc: $notesDesc,
                             navTitle: $navTitle,
                             onSave: {
-//                                if let selectedItem = selectedItem {
-//                                    selectedItem.title = notesTitle
-//                                    selectedItem.desc = notesDesc
-//                                } else {
-//                                    
-//                                }
+                                //                                if let selectedItem = selectedItem {
+                                //                                    selectedItem.title = notesTitle
+                                //                                    selectedItem.desc = notesDesc
+                                //                                } else {
+                                //
+                                //                                }
                                 selectedItem = nil
                                 notesTitle = ""
                                 notesDesc = ""
@@ -107,27 +107,27 @@ struct HomeScreen: View{
                 isSheetExpanded = false
             }) {
                 UpdateNotes(
-                         title: $notesTitle,
-                         desc: $notesDesc,
-                         navTitle: $navTitle,
-                         selectedLocation: $selectedLocation,
-                         selectedLocationName: $selectedLocationName,
-                         onSave: {
-                                  if let selectedItem = selectedItem {
-                                   selectedItem.title = notesTitle
-                                   selectedItem.desc = notesDesc
-                                   selectedItem.location = selectedLocation
-                                   } else {
-                                       let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false,location: selectedLocation)
-                                     context.insert(newItem)
-                                    }
-                                     try? context.save()
-                                     isSheetExpanded = false
-                                     selectedItem = nil
-                             notesTitle = ""
-                             notesDesc = ""
-                             navTitle = "Add Note"
-                     }
+                    title: $notesTitle,
+                    desc: $notesDesc,
+                    navTitle: $navTitle,
+                    selectedLocation: $selectedLocation,
+                    selectedLocationName: $selectedLocationName,
+                    onSave: {
+                        if let selectedItem = selectedItem {
+                            selectedItem.title = notesTitle
+                            selectedItem.desc = notesDesc
+                            selectedItem.location = selectedLocation
+                        } else {
+                            let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false,location: selectedLocation)
+                            context.insert(newItem)
+                        }
+                        try? context.save()
+                        isSheetExpanded = false
+                        selectedItem = nil
+                        notesTitle = ""
+                        notesDesc = ""
+                        navTitle = "Add Note"
+                    }
                 )
             }
         }
@@ -137,28 +137,28 @@ struct HomeScreen: View{
     func pinnedNotesView(for item: NotesItem) -> some View {
         NavigationLink(destination: NotesDetail(notesItem: item)) {
             VStack(alignment: .leading){
-             Text(item.title)
-                .font(.headline)
-             Text(item.desc)
-                .font(.subheadline)
-                .lineLimit(2)
-        }
-    }.contextMenu {
-        Button(role:.destructive) {
-            context.delete(item)
-            try? context.save()
-        } label: {
-            Label("Delete", systemImage: "trash.circle.fill")
-        }
-
-    }.swipeActions(edge:.leading ,content: {
-        Button("UnPin", systemImage: "pin.slash.fill") {
-            selectedItem = item
-            item.isPinned = false
-            try? context.save()
-        }.tint(.yellow)
-    })
-    .swipeActions{
+                Text(item.title)
+                    .font(.headline)
+                Text(item.desc)
+                    .font(.subheadline)
+                    .lineLimit(2)
+            }
+        }.contextMenu {
+            Button(role:.destructive) {
+                context.delete(item)
+                try? context.save()
+            } label: {
+                Label("Delete", systemImage: "trash.circle.fill")
+            }
+            
+        }.swipeActions(edge:.leading ,content: {
+            Button("UnPin", systemImage: "pin.slash.fill") {
+                selectedItem = item
+                item.isPinned = false
+                try? context.save()
+            }.tint(.yellow)
+        })
+        .swipeActions{
             Button("Edit", systemImage: "pencil") {
                 selectedItem = item
                 notesTitle = item.title
@@ -178,33 +178,33 @@ struct HomeScreen: View{
             }
         }
     }
-
+    
     
     func notesView(for item: NotesItem) -> some View {
         NavigationLink(destination: NotesDetail(notesItem: item)) {
             VStack(alignment: .leading){
-             Text(item.title)
-                .font(.headline)
-             Text(item.desc)
-                .font(.subheadline)
-                .lineLimit(2)
-        }
-    }.contextMenu {
-        Button(role:.destructive) {
-            context.delete(item)
-            try? context.save()
-        } label: {
-            Label("Delete", systemImage: "trash.circle.fill")
-        }
-
-    }.swipeActions(edge:.leading ,content: {
-        Button("Pin", systemImage: "pin") {
-            selectedItem = item
-            item.isPinned = true
-            try? context.save()
-        }.tint(.yellow)
-    })
-    .swipeActions{
+                Text(item.title)
+                    .font(.headline)
+                Text(item.desc)
+                    .font(.subheadline)
+                    .lineLimit(2)
+            }
+        }.contextMenu {
+            Button(role:.destructive) {
+                context.delete(item)
+                try? context.save()
+            } label: {
+                Label("Delete", systemImage: "trash.circle.fill")
+            }
+            
+        }.swipeActions(edge:.leading ,content: {
+            Button("Pin", systemImage: "pin") {
+                selectedItem = item
+                item.isPinned = true
+                try? context.save()
+            }.tint(.yellow)
+        })
+        .swipeActions{
             Button("Edit", systemImage: "pencil") {
                 selectedItem = item
                 notesTitle = selectedItem?.title ?? ""
@@ -225,24 +225,24 @@ struct HomeScreen: View{
         }
     }
     private func fetchLocationName(for coordinate: CLLocationCoordinate2D, completion: @escaping (String?) -> Void) {
-            let geocoder = CLGeocoder()
-            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            geocoder.reverseGeocodeLocation(location) { placemarks, error in
-                if let error = error {
-                    print("Reverse geocoding error: \(error.localizedDescription)")
-                    completion(nil)
-                    return
-                }
-                if let placemark = placemarks?.first {
-                    let name = [placemark.name, placemark.locality, placemark.country]
-                        .compactMap { $0 }
-                        .joined(separator: ", ")
-                    completion(name)
-                } else {
-                    completion(nil)
-                }
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                print("Reverse geocoding error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            if let placemark = placemarks?.first {
+                let name = [placemark.name, placemark.locality, placemark.country]
+                    .compactMap { $0 }
+                    .joined(separator: ", ")
+                completion(name)
+            } else {
+                completion(nil)
             }
         }
+    }
 }
 
 #Preview {

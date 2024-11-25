@@ -16,13 +16,13 @@ struct TodoScreen: View {
     @Query(filter: .true, sort: \TodoItem.id, order: .forward, animation: .smooth) private var todoList: [TodoItem]
     @Query(filter: #Predicate<TodoItem> { $0.isCompleted == false }) private var inCompleteList: [TodoItem]
     @Query(filter: #Predicate<TodoItem> { $0.isCompleted == true }, animation: .smooth) private var completedList: [TodoItem]
-
+    
     @State private var title: String = ""
     @State private var isCompleted: Bool = false
     @State private var isSheet: Bool = false
     @State private var navTitle: String = "Add Task"
     @State private var selectedItem: TodoItem?
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -42,7 +42,7 @@ struct TodoScreen: View {
                                 }
                             }
                         }
-
+                        
                         if !inCompleteList.isEmpty {
                             Section("Incomplete Tasks") {
                                 ForEach(inCompleteList) { item in
@@ -117,13 +117,13 @@ struct TodoScreen: View {
             Button("Edit") {
                 editItem(item)
             }.tint(.blue)
-
+            
             Button {
                 toggleCompletion(for: item)
             } label: {
                 Label("Completed", systemImage: item.isCompleted ? "xmark.square" : "checkmark.square")
             }.tint(.green)
-
+            
             Button("Delete", role: .destructive) {
                 deleteItem(item)
             }
