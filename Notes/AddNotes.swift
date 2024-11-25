@@ -27,6 +27,8 @@ struct AddNotes: View {
     @State var selectedLocation : CLLocationCoordinate2D?
     @State private var selectedLocationName: String = "No Location Selected"
     
+    @StateObject private var locationManager = LocationManager()
+    
     var onSave: () -> Void
     
     var body: some View {
@@ -63,7 +65,7 @@ struct AddNotes: View {
                 
                 Section("Photos") {
                     Button("Add Media", systemImage: "photo.on.rectangle.angled.fill") {
-                        
+                        locationManager.checkLocationAuthorization()
                     }
                     .foregroundColor(.white)
                     .buttonStyle(.borderedProminent)
