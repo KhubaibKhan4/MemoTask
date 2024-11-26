@@ -30,6 +30,7 @@ struct HomeScreen: View{
     
     @State var showMenu: Bool = false
     @State var searchText: String = ""
+    @AppStorage("isDarkMode") private var isDark : Bool = false
     var searchResults: [NotesItem] {
         if searchText.isEmpty {
             return notestList
@@ -67,6 +68,7 @@ struct HomeScreen: View{
                     }
                 }
             }
+            .preferredColorScheme(isDark ? .dark : .light)
             .navigationTitle("Notes")
             .searchable(text: $searchText, isPresented: $isSearchPresented)
             .toolbar {

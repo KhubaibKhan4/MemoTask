@@ -15,6 +15,10 @@ struct SettingScreen: View {
     @State private var showPreview: Bool = true
     
     @Environment(\.requestReview) private var requestReview
+    @Environment(\.colorScheme) private var colorScheme
+    
+    @AppStorage("isDarkMode") private var isDark : Bool = false
+    @State private var themeText: String = "Light Mode"
     
     var body: some View {
         NavigationView {
@@ -27,22 +31,18 @@ struct SettingScreen: View {
                     }
                     
                     Section("Color Scheme") {
-                        HStack {
-                            Label("System", systemImage: "sun.max")
-                            Spacer()
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.gray)
-                        }
-                        
-                        HStack {
-                            Label("Light", systemImage: "sun.max")
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Label("Dark", systemImage: "moon.circle")
-                            Spacer()
-                        }
+                        Toggle(isOn: $isDark) {
+                            Text(themeText)
+                        }.toggleStyle(.switch)
+                            .onChange(of: isDark) { oldValue, newValue in
+                                print("Color Scheme Changed \(newValue)")
+                                if newValue  {
+                                    themeText = "Dark Mode"
+                                }else {
+                                    themeText = "Light Mode"
+                                }
+                                isDark = newValue
+                            }
                     }
                     
                     
@@ -67,8 +67,13 @@ struct SettingScreen: View {
                         }
                         
                     }
+                }.onAppear {
+                    themeText = isDark ? "Dark Mode" : "Light Mode"
                 }
-            }.navigationTitle("Setting")
+            }
+                .preferredColorScheme(isDark ? .dark : .light)
+            .navigationTitle("Setting")
+                
         }
     }
 }
