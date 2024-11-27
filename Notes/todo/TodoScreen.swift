@@ -23,6 +23,8 @@ struct TodoScreen: View {
     @State private var navTitle: String = "Add Task"
     @State private var selectedItem: TodoItem?
     
+    @AppStorage("isDarkMode") private var isDark: Bool = false
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -68,6 +70,7 @@ struct TodoScreen: View {
                     }
                 }
             }
+            .preferredColorScheme(isDark ? .dark : .light)
             .navigationTitle("Todo")
             .sheet(isPresented: $isSheet) {
                 TodoSheetContent(

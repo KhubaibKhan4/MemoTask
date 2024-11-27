@@ -9,7 +9,6 @@ import StoreKit
 
 struct SettingScreen: View {
     
-    @Environment(\.colorScheme) private var theme
     @State private var fontSize = 12
     @State private var showLineNo = false
     @State private var showPreview: Bool = true
