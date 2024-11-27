@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		490BF2782CF79CEA003D0BA9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 490BF2772CF79CEA003D0BA9 /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		490BF2762CF79CEA003D0BA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		490BF2792CF79CF2003D0BA9 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		490BF27A2CF79CFA003D0BA9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		49BA1F862CBD8E700099CDCB /* Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -45,6 +52,7 @@
 		49BA1F7D2CBD8E700099CDCB = {
 			isa = PBXGroup;
 			children = (
+				490BF2772CF79CEA003D0BA9 /* Localizable.strings */,
 				49BA1F882CBD8E700099CDCB /* Notes */,
 				49BA1F872CBD8E700099CDCB /* Products */,
 			);
@@ -104,6 +112,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
+				es,
 			);
 			mainGroup = 49BA1F7D2CBD8E700099CDCB;
 			minimizedProjectReferenceProxies = 1;
@@ -122,6 +132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				490BF2782CF79CEA003D0BA9 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +147,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		490BF2772CF79CEA003D0BA9 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				490BF2762CF79CEA003D0BA9 /* en */,
+				490BF2792CF79CF2003D0BA9 /* ar */,
+				490BF27A2CF79CFA003D0BA9 /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		49BA1F922CBD8E710099CDCB /* Debug */ = {

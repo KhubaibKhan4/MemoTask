@@ -13,6 +13,7 @@ struct NotesApp: App {
         WindowGroup {
             ContentView()
                 .modelContainer(for: [NotesItem.self,TodoItem.self])
+                .environment(\.locale, .init(identifier: "eng-us"))
         }
     }
 }
