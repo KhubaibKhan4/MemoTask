@@ -44,7 +44,7 @@ struct HomeScreen: View{
         NavigationView {
             VStack{
                 if searchResults.isEmpty {
-                    ContentUnavailableView("No Notes Found", systemImage: "text.document.fill")
+                    ContentUnavailableView.init("No Notes Found", systemImage: "text.page.badge.magnifyingglass", description: Text("No Notes Found in the Database. Please try to research other items."))
                     
                 }else{
                     List{
