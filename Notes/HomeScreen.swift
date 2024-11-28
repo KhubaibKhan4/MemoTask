@@ -55,6 +55,8 @@ struct HomeScreen: View{
                                 Section("Pinned") {
                                     ForEach(searchResults.filter { $0.isPinned } ) { item in
                                         pinnedNotesView(for: item)
+                                    }.onDelete { indexSet in
+                                        deleteItem(at: indexSet)
                                     }
                                 }
                             }
@@ -62,9 +64,15 @@ struct HomeScreen: View{
                         }
                         ForEach(searchResults.filter {!$0.isPinned}) { item in
                             notesView(for: item)
+                        }.onDelete { indexSet in
+                            deleteItem(at: indexSet)
                         }
                     }.refreshable {
                         print("Refresh Notes")
+                    }.toolbar {
+                        ToolbarItem(placement:.topBarTrailing) {
+                            EditButton()
+                        }
                     }
                 }
             }
@@ -134,6 +142,20 @@ struct HomeScreen: View{
             }
         }
         
+    }
+    
+    
+    private func deleteItem(at offset: IndexSet) {
+        let itemToDelete = notestList
+        for index in offset {
+            let item = itemToDelete[index]
+            try? context.delete(item)
+        }
+        do {
+            try context.save()
+        }catch {
+            print("Error While Deleting...")
+        }
     }
     
     func pinnedNotesView(for item: NotesItem) -> some View {
