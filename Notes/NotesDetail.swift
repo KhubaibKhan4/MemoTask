@@ -19,6 +19,8 @@ struct NotesDetail: View {
     )
     
     @State var selectedLocationName: String = ""
+    @State var isMapClicked: Bool = false
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ScrollView {
@@ -60,6 +62,23 @@ struct NotesDetail: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
                                 .shadow(radius: 4),
                             alignment: .topLeading
+                        ).onTapGesture {
+                            isMapClicked = !isMapClicked
+                        }.sheet(isPresented: $isMapClicked, content: {
+                            NavigationStack {
+                                VStack {
+                                    Map(position: $position) {
+                                        Marker(selectedLocationName, coordinate: location)
+                                    }.frame(width: .infinity, height: .infinity)
+                                }.toolbar {
+                                    Button("Close", role: .cancel) {
+                                        isMapClicked = !isMapClicked
+                                    }
+                                
+                                }
+                            }
+                            
+                        }
                         )
                     }
                     .padding()
@@ -67,7 +86,6 @@ struct NotesDetail: View {
             }
             .onAppear {
                 if let location = notesItem.location {
-                    // Update the map position and fetch location name
                     position = .region(
                         MKCoordinateRegion(
                             center: location,
@@ -84,7 +102,6 @@ struct NotesDetail: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    // Reverse Geocoding to Fetch Location Name
     private func fetchLocationName(for coordinate: CLLocationCoordinate2D, completion: @escaping (String?) -> Void) {
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
