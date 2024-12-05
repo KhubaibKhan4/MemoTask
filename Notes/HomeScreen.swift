@@ -161,9 +161,9 @@ struct HomeScreen: View{
     func pinnedNotesView(for item: NotesItem) -> some View {
         NavigationLink(destination: NotesDetail(notesItem: item)) {
             VStack(alignment: .leading){
-                Text(item.title)
+                Text(LocalizedStringKey(item.title))
                     .font(.headline)
-                Text(item.desc)
+                Text(LocalizedStringKey(item.desc))
                     .font(.subheadline)
                     .lineLimit(2)
             }
