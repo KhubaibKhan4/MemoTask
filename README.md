@@ -14,20 +14,18 @@ Memo Notes is a lightweight and intuitive note-taking app built for iOS devices,
 - Add Image and Videos to Notes.
 - Add Embeded URL.
 
-# Sreenshots
+# Screenshots
+
 | ![Screenshot 1](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/1.png) | ![Screenshot 2](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/2.png) | ![Screenshot 3](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/3.png) |
-| --- | --- | --- |
-| ![Screenshot 4](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/4.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/5.png) |  |
-![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/6.png) |
-| --- | --- | --- |
-| ![Screenshot 4](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/7.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/8.png) |  |
-![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/9.png) |
-| --- | --- | --- |
-| ![Screenshot 4](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/10.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/11.png) |  |
-![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/12.png) |
-| --- | --- | --- |
-| ![Screenshot 4](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/13.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/14.png) |  |
-![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/15.png) |
+|---|---|---|
+| ![Screenshot 4](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/4.png) | ![Screenshot 5](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/5.png) | ![Screenshot 6](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/6.png) |
+
+| ![Screenshot 7](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/7.png) | ![Screenshot 8](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/8.png) | ![Screenshot 9](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/9.png) |
+|---|---|---|
+| ![Screenshot 10](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/10.png) | ![Screenshot 11](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/11.png) | ![Screenshot 12](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/12.png) |
+
+| ![Screenshot 13](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/13.png) | ![Screenshot 14](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/14.png) | ![Screenshot 15](https://github.com/KhubaibKhan4/MemoTask/blob/main/assests/15.png) |
+|---|---|---|
 
 ## Star History
 
