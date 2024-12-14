@@ -87,18 +87,11 @@ struct HomeScreen: View{
                             desc: $notesDesc,
                             navTitle: $navTitle,
                             onSave: {
-                                //                                if let selectedItem = selectedItem {
-                                //                                    selectedItem.title = notesTitle
-                                //                                    selectedItem.desc = notesDesc
-                                //                                } else {
-                                //
-                                //                                }
                                 selectedItem = nil
                                 notesTitle = ""
                                 notesDesc = ""
                                 navTitle = "Add Note"
                                 let newItem = NotesItem(title: notesTitle, desc: notesDesc, isPinned: false, location: selectedLocation)
-                                //context.insert(newItem)
                                 try? context.save()
                                 isSheetExpanded = false
                             }
