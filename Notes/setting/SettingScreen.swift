@@ -9,7 +9,7 @@ import StoreKit
 
 struct SettingScreen: View {
     
-    @State private var fontSize = 12
+    @AppStorage("FontSize") private var fontSize = 12
     @State private var showLineNo = false
     @State private var showPreview: Bool = true
     
@@ -47,9 +47,8 @@ struct SettingScreen: View {
                     
                     Section("Font Size") {
                         HStack {
-                            Stepper(value: $fontSize) {
-                                Label("Font", systemImage: "textformat.size")
-                            }
+                            Stepper("Font #\(fontSize) ", value: $fontSize, in: 12...40, step: 1)
+                            
                         }
                     }
                     
