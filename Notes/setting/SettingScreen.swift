@@ -24,7 +24,7 @@ struct SettingScreen: View {
             Form {
                 Group {
                     Section("Localization") {
-                        NavigationLink(destination: SettingView(setting: "Language"), label: {
+                        NavigationLink(destination: CountrySelectorView(), label: {
                             Label("Languages", systemImage: "globe")
                         })
                     }

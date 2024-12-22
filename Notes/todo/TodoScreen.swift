@@ -30,32 +30,32 @@ struct TodoScreen: View {
             
             VStack {
                 
-                    if todoList.isEmpty {
-                            ContentUnavailableView("No Notes Found", systemImage: "text.document.fill", description: Text("There're no notes yet. Add a note to get started."))
-                    } else {
-                        List {
-                            if !completedList.isEmpty {
-                                Section("Complete Tasks") {
-                                    ForEach(completedList) { completeItem in
-                                        todoRow(for: completeItem)
-                                    }
+                if todoList.isEmpty {
+                    ContentUnavailableView("No Notes Found", systemImage: "text.document.fill", description: Text("There're no notes yet. Add a note to get started."))
+                } else {
+                    List {
+                        if !completedList.isEmpty {
+                            Section("Complete Tasks") {
+                                ForEach(completedList) { completeItem in
+                                    todoRow(for: completeItem)
                                 }
                             }
-                            
-                            if !inCompleteList.isEmpty {
-                                Section("Incomplete Tasks") {
-                                    ForEach(inCompleteList) { item in
-                                        todoRow(for: item)
-                                    }
-                                }
-                            }
-                        }.refreshable {
-                            print("Pull to Refresh Init")
                         }
                         
+                        if !inCompleteList.isEmpty {
+                            Section("Incomplete Tasks") {
+                                ForEach(inCompleteList) { item in
+                                    todoRow(for: item)
+                                }
+                            }
+                        }
+                    }.refreshable {
+                        print("Pull to Refresh Init")
                     }
+                    
                 }
-                
+            }
+            
             .toolbar {
                 ToolbarItem {
                     Button {
