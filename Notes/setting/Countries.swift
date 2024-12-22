@@ -11,5 +11,6 @@ struct Country: Identifiable {
     let id = UUID()
     let name: String
     let flag: String
-    let code: String
+    let language: String
+    let languageCode: String
 }
