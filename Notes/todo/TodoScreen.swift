@@ -27,35 +27,37 @@ struct TodoScreen: View {
     
     var body: some View {
         NavigationView {
-            
             VStack {
-                
+                List {
                     if todoList.isEmpty {
+                        VStack {
+                            Spacer()
                             ContentUnavailableView("No Notes Found", systemImage: "text.document.fill", description: Text("There're no notes yet. Add a note to get started."))
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            Spacer()
+                        }
                     } else {
-                        List {
-                            if !completedList.isEmpty {
-                                Section("Complete Tasks") {
-                                    ForEach(completedList) { completeItem in
-                                        todoRow(for: completeItem)
-                                    }
+                        if !completedList.isEmpty {
+                            Section("Complete Tasks") {
+                                ForEach(completedList) { completeItem in
+                                    todoRow(for: completeItem)
                                 }
                             }
-                            
-                            if !inCompleteList.isEmpty {
-                                Section("Incomplete Tasks") {
-                                    ForEach(inCompleteList) { item in
-                                        todoRow(for: item)
-                                    }
-                                }
-                            }
-                        }.refreshable {
-                            print("Pull to Refresh Init")
                         }
                         
+                        if !inCompleteList.isEmpty {
+                            Section("Incomplete Tasks") {
+                                ForEach(inCompleteList) { item in
+                                    todoRow(for: item)
+                                }
+                            }
+                        }
                     }
                 }
-                
+                .refreshable {
+                    print("Pull to Refresh Init")
+                }
+            }
             .toolbar {
                 ToolbarItem {
                     Button {
